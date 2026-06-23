@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './AICalc.css';
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const MODEL = 'mistralai/mistral-7b-instruct:free';
+const MODEL = 'nvidia/nemotron-3-ultra-550b-a55b:free';
 
 const SYSTEM_PROMPT = `You are an advanced AI math assistant embedded in a calculator app. 
 You can:
