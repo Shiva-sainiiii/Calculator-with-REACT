@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './AICalc.css';
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const MODEL = 'nvidia/nemotron-3-ultra-550b-a55b:free';
+const MODEL = 'mistralai/mistral-7b-instruct:free';
 
 const SYSTEM_PROMPT = `You are an advanced AI math assistant embedded in a calculator app. 
 You can:
@@ -29,10 +29,13 @@ const SUGGESTIONS = [
   'sin(45°) + cos(30°)',
 ];
 
+// Priority: env variable (set in Vercel) → manual input fallback
+const ENV_KEY = process.env.REACT_APP_OPENROUTER_API_KEY || '';
+
 export default function AICalc({ addToHistory }) {
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('openrouter_key') || '');
+  const [apiKey, setApiKey] = useState(ENV_KEY);
   const [keyInput, setKeyInput] = useState('');
-  const [keySet, setKeySet] = useState(() => !!localStorage.getItem('openrouter_key'));
+  const [keySet, setKeySet] = useState(!!ENV_KEY);
   const [messages, setMessages] = useState([
     { role: 'assistant', content: '👋 Hey! I\'m your AI math assistant. Ask me anything — equations, calculus, percentages, word problems, unit conversions... I\'ve got you!' }
   ]);
@@ -47,7 +50,8 @@ export default function AICalc({ addToHistory }) {
 
   const saveKey = () => {
     if (!keyInput.trim()) return;
-    localStorage.setItem('openrouter_key', keyInput.trim());
+    // Note: this only sets key in memory for this session
+    // For persistent secure storage, set REACT_APP_OPENROUTER_API_KEY in Vercel env vars
     setApiKey(keyInput.trim());
     setKeySet(true);
   };
@@ -131,7 +135,7 @@ export default function AICalc({ addToHistory }) {
           />
           <button className="ai-key-btn" onClick={saveKey}>Connect</button>
         </div>
-        <p className="ai-setup-note">Free tier: mistral-7b-instruct · Key stored in browser only</p>
+        <p className="ai-setup-note">Free tier: mistral-7b-instruct · Key stays in memory only (not saved)</p>
       </div>
     );
   }
@@ -199,7 +203,10 @@ export default function AICalc({ addToHistory }) {
 
       <div className="ai-footer">
         <span>Model: mistral-7b-instruct · </span>
-        <button className="ai-change-key" onClick={() => { setKeySet(false); setKeyInput(''); }}>Change Key</button>
+        {ENV_KEY
+          ? <span style={{ color: 'var(--green)' }}>🔒 Key via env var</span>
+          : <button className="ai-change-key" onClick={() => { setKeySet(false); setKeyInput(''); }}>Change Key</button>
+        }
       </div>
     </div>
   );
