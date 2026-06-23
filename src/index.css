@@ -1,0 +1,122 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-1: #0a0a0f;
+  --bg-2: #0f0a1a;
+  --bg-3: #0a0f1a;
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.07);
+  --purple: #8b5cf6;
+  --purple-light: #a78bfa;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --text-1: #f8fafc;
+  --text-2: #94a3b8;
+  --text-3: #475569;
+  --btn-digit: rgba(255,255,255,0.06);
+  --btn-digit-hover: rgba(255,255,255,0.11);
+  --btn-action: rgba(139, 92, 246, 0.15);
+  --btn-action-hover: rgba(139, 92, 246, 0.25);
+  --btn-op: rgba(139, 92, 246, 0.8);
+  --btn-op-hover: rgba(139, 92, 246, 1);
+  --btn-eq: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Inter', sans-serif;
+  --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.15);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-1);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.4); border-radius: 2px; }
+
+/* Animated BG */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.animated-bg::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+  top: -200px;
+  left: -200px;
+  animation: drift1 12s ease-in-out infinite alternate;
+}
+
+.animated-bg::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 70%);
+  bottom: -150px;
+  right: -150px;
+  animation: drift2 10s ease-in-out infinite alternate;
+}
+
+.bg-orb {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: drift3 14s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(80px, 60px) scale(1.2); }
+}
+@keyframes drift2 {
+  from { transform: translate(0, 0) scale(1.1); }
+  to   { transform: translate(-60px, -80px) scale(0.9); }
+}
+@keyframes drift3 {
+  from { transform: translate(-50%, -50%) scale(0.8); }
+  to   { transform: translate(-50%, -50%) scale(1.3); }
+}
+
+/* Grid lines background */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
